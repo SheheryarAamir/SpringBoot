@@ -1,14 +1,13 @@
-package com.sheheryar.demo;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Table;
+package com.sheheryar.demo.model;
+
 import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 
 @Entity
-@Table(name="records")
-public class Records {
+@Table(name="faulty_records")
+public class FaultyRecords {
 	
 	@Column(name="deal_id")
 	 private String dealID;	
@@ -24,6 +23,7 @@ public class Records {
 	
 	@Column(name="deal_amount")
 	 private String dealAmount;
+	
 
 	public String getDealID() {
 		return dealID;
@@ -63,6 +63,5 @@ public class Records {
 
 	public void setDealAmount(String dealAmount) {
 		this.dealAmount = dealAmount;
-	}		
-
+	}	
 }
