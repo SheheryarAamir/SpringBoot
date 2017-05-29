@@ -102,7 +102,12 @@ public class JpaConfiguration {
         properties.put("hibernate.format_sql", environment.getRequiredProperty("datasource.sampleapp.hibernate.format_sql"));
         if(StringUtils.isNotEmpty(environment.getRequiredProperty("datasource.sampleapp.defaultSchema"))){
             properties.put("hibernate.default_schema", environment.getRequiredProperty("datasource.sampleapp.defaultSchema"));
+            
         }
+        properties.put("spring.h2.console.enabled", true);
+        properties.put("spring.h2.console.path", "/h2-console");
+        properties.put("spring.h2.console.settings.trace", true);
+        properties.put("spring.h2.console.settings.web-allow-others", true);
         return properties;
     }
  

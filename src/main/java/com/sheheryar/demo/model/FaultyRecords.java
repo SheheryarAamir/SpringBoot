@@ -1,7 +1,9 @@
 package com.sheheryar.demo.model;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 
 
@@ -9,6 +11,7 @@ import javax.persistence.Table;
 @Table(name="faulty_records")
 public class FaultyRecords {
 	
+	@Id
 	@Column(name="deal_id")
 	 private String dealID;	
 	
