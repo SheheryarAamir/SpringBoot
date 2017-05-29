@@ -3,7 +3,7 @@ server:
   contextPath: /CSVUploader
 ---
 spring:
-  profiles: local,default
+  profiles: prod
 datasource:
   sampleapp:
     url: jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
@@ -19,17 +19,17 @@ datasource:
       dialect: org.hibernate.dialect.H2Dialect
 ---
 spring:
-  profiles: prod
+  profiles: local,default
 datasource:
   sampleapp:
-    url: jdbc:mysql://localhost:3306/records
-    username: myuser
-    password: mypassword
+    url: jdbc:mysql://localhost:3306/test
+    username: root
+    password: admin
     driverClassName: com.mysql.jdbc.Driver
     defaultSchema:
     maxPoolSize: 20
     hibernate:
       hbm2ddl.method: update
-      show_sql: true
-      format_sql: true
+      show_sql: false
+      format_sql: false
       dialect: org.hibernate.dialect.MySQLDialect

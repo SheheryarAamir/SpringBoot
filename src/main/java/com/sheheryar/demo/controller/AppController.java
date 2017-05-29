@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sheheryar.demo.model.Records;
 import com.sheheryar.demo.service.impl.RecordsServiceImpl;
 import com.sheheryar.demo.utils.CSVUtil;
 
@@ -36,14 +37,20 @@ public class AppController {
 	@PostMapping("/upload") // 
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
                                    RedirectAttributes redirectAttributes) {
-
+		
+		Records rec = recordsServiceImpl.fetchRecords(file.getName());
+		if(rec != null){
+			redirectAttributes.addFlashAttribute("message",
+                    "File Already Processed '" + file.getOriginalFilename() + "'");
+			return "redirect:/uploadStatus";
+		}
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
             return "redirect:/uploadStatus";
         }
 
         try {
-            recordsServiceImpl.bulkSave(csvUtil.processInputFile(multipartToFile(file)));
+            recordsServiceImpl.bulkSaveRecords(csvUtil.processInputFile(multipartToFile(file)));
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
 

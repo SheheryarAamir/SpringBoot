@@ -12,6 +12,9 @@ public class Records {
 	@Column(name="deal_id")
 	 private String dealID;	
 	
+	@Column(name="file_name")
+	 private String fileName;
+	
 	@Column(name="ordering_currency")
 	 private String orderingCurrency;
 	
@@ -62,6 +65,14 @@ public class Records {
 
 	public void setDealAmount(String dealAmount) {
 		this.dealAmount = dealAmount;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}		
 
 }

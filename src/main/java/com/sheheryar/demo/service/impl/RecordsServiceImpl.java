@@ -26,8 +26,8 @@ public class RecordsServiceImpl {
 	@Autowired
     private FaultyRecordRepository faultyRecordRepository;
 	
-	public void saveRecords(Records record) {
-		recordRepository.save(record);
+	public Records fetchRecords(String fileName) {
+		return recordRepository.findByFileName(fileName);
     }
 	
 	public void saveFaultyRecords(FaultyRecords faultyRecord) {
@@ -36,13 +36,13 @@ public class RecordsServiceImpl {
 	
 	@PersistenceContext
 	private EntityManager entityManager;
-	private int batchSize = 50;
+	private int batchSize = 1000;
 	 
-	public <T extends Records> Collection<T> bulkSave(Collection<T> entities) {
-	  final List<T> savedEntities = new ArrayList<T>(entities.size());
+	public <T extends Records> void bulkSaveRecords(Collection<T> entities) {
+	  //final List<T> savedEntities = new ArrayList<T>(entities.size());
 	  int i = 0;
 	  for (T t : entities) {
-	    savedEntities.add(persistOrMerge(t));
+		entityManager.persist(t);
 	    i++;
 	    if (i % batchSize == 0) {
 	      // Flush a batch of inserts and release memory.
@@ -50,13 +50,23 @@ public class RecordsServiceImpl {
 	      entityManager.clear();
 	    }
 	  }
-	  return savedEntities;
+	}
+	
+	 
+	public <T extends FaultyRecords> void bulkSaveFaultyRecords(Collection<T> entities) {
+	  //final List<T> savedEntities = new ArrayList<T>(entities.size());
+	  int i = 0;
+	  for (T t : entities) {
+		entityManager.persist(t);
+	    i++;
+	    if (i % batchSize == 0) {
+	      // Flush a batch of inserts and release memory.
+	      entityManager.flush();
+	      entityManager.clear();
+	    }
+	  }
 	}
 	 
-	private <T extends Records> T persistOrMerge(T t) {
-	    entityManager.persist(t);
-	    return t;
 
-	}
 	
 }
