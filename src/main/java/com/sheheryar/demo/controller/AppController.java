@@ -2,6 +2,8 @@ package com.sheheryar.demo.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sheheryar.demo.RecordVO;
 import com.sheheryar.demo.model.Records;
 import com.sheheryar.demo.service.impl.RecordsServiceImpl;
 import com.sheheryar.demo.utils.CSVUtil;
@@ -50,7 +53,11 @@ public class AppController {
         }
 
         try {
-            recordsServiceImpl.bulkSaveRecords(csvUtil.processInputFile(multipartToFile(file)));
+        	List<RecordVO> recVO = csvUtil.processInputFile(multipartToFile(file));
+           /* recordsServiceImpl.bulkSaveRecords(recVO.stream()
+            		.filter(x -> "true".equalsIgnoreCase(x.getError()))
+            		.collect(Collectors.toList())
+            		);*/
             redirectAttributes.addFlashAttribute("message",
                     "You successfully uploaded '" + file.getOriginalFilename() + "'");
 
