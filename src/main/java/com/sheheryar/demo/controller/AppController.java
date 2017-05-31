@@ -154,7 +154,7 @@ public class AppController {
 		  record.setFileName(recordVO.getFileName());
 		  if(isoCurrencies.containsKey(recordVO.getOrderingCurrency())){
 			  isoCurrencies.put(recordVO.getOrderingCurrency(), 1 + isoCurrencies.get(recordVO.getOrderingCurrency()));
-		  }else{
+		  }else if(csvUtil.getIsoCurrencies().containsKey(recordVO.getOrderingCurrency())){
 			  isoCurrencies.put(recordVO.getOrderingCurrency(), 1);
 		  }
 		  return record;

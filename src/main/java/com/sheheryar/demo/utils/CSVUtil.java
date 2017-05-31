@@ -62,12 +62,12 @@ public class CSVUtil {
 		  }
 		  
 	      //Ordering Currency
-		  if (p[1] == null && p[1].trim().length() == 0 && !isoCurrencies.containsKey(p[1])) {
+		  if (p[1] == null && p[1].trim().length() != 3 && !isoCurrencies.containsKey(p[1])) {
 			  error = true;			  
 		  }
 		  
 		  //To Currency ISO Code
-		  if (p[2] == null && p[2].trim().length() == 0 && !isoCurrencies.containsKey(p[2])) {
+		  if (p[2] == null && p[2].trim().length() != 3 && !isoCurrencies.containsKey(p[2])) {
 			  error = true;
 		  }
 		  
@@ -99,6 +99,12 @@ public class CSVUtil {
 	}
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public HashMap<String, String> getIsoCurrencies() {
+		return isoCurrencies;
+	}
+	public void setIsoCurrencies(HashMap<String, String> isoCurrencies) {
+		this.isoCurrencies = isoCurrencies;
 	}
 		
 }
