@@ -62,12 +62,12 @@ public class CSVUtil {
 		  }
 		  
 	      //Ordering Currency
-		  if (p[1] == null && p[1].trim().length() != 3 && !isoCurrencies.containsKey(p[1])) {
+		  if (p[1] == null || p[1].trim().length() != 3 || !isoCurrencies.containsKey(p[1])) {
 			  error = true;			  
 		  }
 		  
 		  //To Currency ISO Code
-		  if (p[2] == null && p[2].trim().length() != 3 && !isoCurrencies.containsKey(p[2])) {
+		  if (p[2] == null || p[2].trim().length() != 3 || !isoCurrencies.containsKey(p[2])) {
 			  error = true;
 		  }
 		  
