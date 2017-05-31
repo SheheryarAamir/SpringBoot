@@ -1,8 +1,6 @@
 package com.sheheryar.demo.service.impl;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -13,7 +11,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.sheheryar.demo.model.FaultyRecords;
 import com.sheheryar.demo.model.Records;
-import com.sheheryar.demo.repositories.FaultyRecordRepository;
+import com.sheheryar.demo.model.RecordsCount;
+import com.sheheryar.demo.repositories.RecordsCountRepository;
 import com.sheheryar.demo.repositories.RecordRepository;
 
 @Service("recordService")
@@ -23,23 +22,21 @@ public class RecordsServiceImpl {
 	@Autowired
     private RecordRepository recordRepository;
 	
-	@Autowired
-    private FaultyRecordRepository faultyRecordRepository;
 	
-	public Records fetchRecords(String fileName) {
+	
+	public String fetchRecords(String fileName) {
 		return recordRepository.findByFileName(fileName);
     }
 	
-	public void saveFaultyRecords(FaultyRecords faultyRecord) {
-		faultyRecordRepository.save(faultyRecord);
-    }
+	
+	
 	
 	@PersistenceContext
 	private EntityManager entityManager;
 	private int batchSize = 1000;
 	 
 	public <T extends Records> void bulkSaveRecords(Collection<T> entities) {
-	  //final List<T> savedEntities = new ArrayList<T>(entities.size());
+
 	  int i = 0;
 	  for (T t : entities) {
 		entityManager.persist(t);
@@ -54,7 +51,7 @@ public class RecordsServiceImpl {
 	
 	 
 	public <T extends FaultyRecords> void bulkSaveFaultyRecords(Collection<T> entities) {
-	  //final List<T> savedEntities = new ArrayList<T>(entities.size());
+
 	  int i = 0;
 	  for (T t : entities) {
 		entityManager.persist(t);
