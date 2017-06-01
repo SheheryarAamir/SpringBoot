@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.sheheryar.demo.exceptions.FileNameAlreadyExist;
 import com.sheheryar.demo.model.FaultyRecords;
 import com.sheheryar.demo.model.Records;
 import com.sheheryar.demo.model.RecordsCount;
@@ -23,9 +24,16 @@ public class RecordsServiceImpl {
     private RecordRepository recordRepository;
 	
 	
+	public void saveRecord(Records record) {
+		recordRepository.save(record);
+    }
 	
-	public String fetchRecords(String fileName) {
-		return recordRepository.findByFileName(fileName);
+	
+	public void fetchRecords(String fileName) {
+		String result = recordRepository.findByFileName(fileName);
+		if(result != null){
+			throw new FileNameAlreadyExist(result);
+		}
     }
 	
 	

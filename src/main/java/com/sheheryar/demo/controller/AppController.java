@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sheheryar.demo.RecordVO;
+import com.sheheryar.demo.exceptions.FileNameAlreadyExist;
 import com.sheheryar.demo.model.FaultyRecords;
 import com.sheheryar.demo.model.Records;
 import com.sheheryar.demo.model.RecordsCount;
@@ -66,18 +67,15 @@ public class AppController {
         File f;
 		try {
 			f = multipartToFile(file);
-			String rec = recordsServiceImpl.fetchRecords(f.getName());
-		        if(rec != null){
-					redirectAttributes.addFlashAttribute("message",
-		                    "File Already Processed '" + file.getOriginalFilename() + "'");
-					return "redirect:/uploadStatus";
-				}
-		} catch (IllegalStateException e1) {
+			recordsServiceImpl.fetchRecords(f.getName());
+
+		} catch (FileNameAlreadyExist e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-			redirectAttributes.addFlashAttribute("message", "some technical error. please contact administrator");
-            return "redirect:/uploadStatus";
-		} catch (IOException e1) {
+			redirectAttributes.addFlashAttribute("message",
+                    "File Already Processed '" + file.getOriginalFilename() + "'");
+			return "redirect:/uploadStatus";
+		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 			redirectAttributes.addFlashAttribute("message", "some technical error. please contact administrator");

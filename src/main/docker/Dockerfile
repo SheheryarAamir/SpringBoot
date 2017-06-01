@@ -1,6 +1,2 @@
-FROM frolvlad/alpine-oraclejdk8:slim
-VOLUME /tmp
-ADD CSV-Uploader-0.1.0.jar app.jar
-RUN sh -c 'touch /app.jar'
-ENV JAVA_OPTS=""
-ENTRYPOINT [ "sh", "-c", "java $JAVA_OPTS -Djava.security.egd=file:/dev/./urandom -jar /app.jar" ]
+FROM mdelapenya/tomcat-mysql
+COPY csv-uploader-0.1.0.war /opt/apache-tomcat-7.0.77/webapps/csv-uploader-0.1.0.war
