@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<h1>Spring Boot - Faulty Records</h1>
+
+
+
+<div class="container">
+<div th:if="${not #lists.isEmpty(faultyRecords)}">
+        <h2>Records List</h2>
+        <table class="table table-striped">
+            <tr>  
+            <th>   FileName   |</th>          
+                <th>   Id   |</th>
+                <th>   Ordering Currency   |</th>
+                <th>   To Currency   |</th>
+                <th>   Time Stamp   |</th>
+                <th>   Amount</th>
+            </tr>
+            <tr th:each="faultyRecords : ${faultyRecords}">
+            <td th:text="${faultyRecords.fileName}"></td>
+                <td th:text="${faultyRecords.dealID}"></td>
+                <td th:text="${faultyRecords.orderingCurrency}"></td>
+                <td th:text="${faultyRecords.toCurrency}"></td>
+                <td th:text="${faultyRecords.timestamp}"></td>
+                <td th:text="${faultyRecords.dealAmount}"></td>
+            </tr>
+        </table>
+
+    </div>
+
+
+<div th:fragment='paginationbar'>
+        <div>
+            <ul class='pagination pagination-centered'>
+                <li th:class="${page.firstPage}?'disabled':''">
+                <span th:if='${page.firstPage}'>First</span>
+                <a th:if='${not page.firstPage}' th:href='@{${page.url}(page=0,size=${page.size})}'>First</a>
+                </li>
+                <li th:class="${page.hasPreviousPage}? '' : 'disabled'">
+                <span th:if='${not page.hasPreviousPage}'> -- </span>
+                <a th:if='${page.hasPreviousPage}' th:href='@{${page.url}(page=${page.number-2},size=${page.size})}' title='Go to previous page'>--</a>
+                </li>
+                <li th:each='item : ${page.items}' th:class="${item.current}? 'active' : ''">
+                <span th:if='${item.current}' th:text='${item.number}'>1</span>
+                <a th:if='${not item.current}' th:href='@{${page.url}(page=${item.number-1},size=${page.size})}'><span th:text='${item.number}'>1</span></a>
+                </li>
+                <li th:class="${page.hasNextPage}? '' : 'disabled'">
+                <span th:if='${not page.hasNextPage}'>--</span>
+                <a th:if='${page.hasNextPage}' th:href='@{${page.url}(page=${page.number},size=${page.size})}' title='Go to next page'>--</a>
+                </li>
+                <li th:class="${page.lastPage}? 'disabled' : ''">
+                <span th:if='${page.lastPage}'>Last</span>
+                <a th:if='${not page.lastPage}' th:href='@{${page.url}(page=${page.totalPages - 1},size=${page.size})}'>Last’</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    
+ </div>   
+    
+</body>
+</html>

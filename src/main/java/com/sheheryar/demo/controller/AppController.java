@@ -12,14 +12,20 @@ import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.sheheryar.demo.PageWrapper;
 import com.sheheryar.demo.RecordVO;
 import com.sheheryar.demo.exceptions.FileNameAlreadyExist;
 import com.sheheryar.demo.model.FaultyRecords;
@@ -48,8 +54,28 @@ public class AppController {
 	@RequestMapping("/")
     String index() {
         //modal.addAttribute("title","CSV Upload");
+		 
         return "upload";
     }
+	
+	@RequestMapping(value = "/faultyRecords", method = RequestMethod.GET)
+    public String listFaultyRecords(Model model, Pageable pageable){
+		Page<FaultyRecords> faultyRecords = recordsServiceImpl.listAllFaultyRecordsByPage(pageable);
+		PageWrapper<FaultyRecords> page = new PageWrapper<FaultyRecords>(faultyRecords, "/faultyRecords");
+        model.addAttribute("faultyRecords", page.getContent());
+        model.addAttribute("page", page);
+        return "faultyRecords";
+	}
+	
+	
+	@RequestMapping(value = "/records", method = RequestMethod.GET)
+    public String listRecords(Model model, Pageable pageable){
+		Page<Records> records = recordsServiceImpl.listAllRecordsByPage(pageable);
+		PageWrapper<Records> page = new PageWrapper<Records>(records, "/records");
+        model.addAttribute("records", page.getContent());
+        model.addAttribute("page", page);
+        return "records";
+	}
 	
 	@PostMapping("/upload") // 
     public String singleFileUpload(@RequestParam("file") MultipartFile file,

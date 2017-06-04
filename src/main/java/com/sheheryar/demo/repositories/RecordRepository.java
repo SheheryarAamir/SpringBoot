@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 import com.sheheryar.demo.model.Records;
 
 @Repository
-public interface RecordRepository extends JpaRepository<Records, Long>{
+public interface RecordRepository extends JpaRepository<Records, String>{
 	
 	@Query(value ="SELECT file_name FROM Records r WHERE r.file_Name= ?1", nativeQuery = true)
 	String findByFileName(@Param("fileName")String fileName);
+	
+	
 }
